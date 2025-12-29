@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Flow
 
-## Getting Started
+An extendable node-based visualization engine built with React Flow and Next.js.
 
-First, run the development server:
+![Flow Demo](assets/demo.png)
+
+## Features
+
+- **Multiple Layout Algorithms** - Dagre (hierarchical tree), Grid, and Radial layouts
+- **10 Layout Presets** - Quick switching between arrangements (vertical, horizontal, compact, wide, etc.)
+- **3 Node Components** - BaseNode, CardNode (with thumbnails), and MinimalNode
+- **Fully Typed** - Complete TypeScript definitions
+- **Extensible** - Easy to add custom node types, edge types, and layouts
+
+## Quick Start
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to see the demo.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Usage
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```tsx
+import { NodeEngine, LAYOUT_PRESETS } from "@/engine";
 
-## Learn More
+const nodes = [
+  { id: "1", type: "card", position: { x: 0, y: 0 }, data: { label: "Node 1" } },
+  { id: "2", type: "card", position: { x: 0, y: 0 }, data: { label: "Node 2" } },
+];
 
-To learn more about Next.js, take a look at the following resources:
+const edges = [
+  { id: "e1-2", source: "1", target: "2" },
+];
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+export default function App() {
+  return (
+    <NodeEngine
+      nodes={nodes}
+      edges={edges}
+      layout="treeHorizontal"
+      onNodeClick={(node) => console.log(node)}
+    />
+  );
+}
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Layout Presets
 
-## Deploy on Vercel
+| Category | Presets |
+|----------|---------|
+| **Tree** | `treeVertical`, `treeHorizontal`, `treeBottomUp`, `treeRightToLeft` |
+| **Grid** | `grid`, `gridCompact`, `gridWide` |
+| **Radial** | `radial`, `radialCompact`, `radialWide` |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Project Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+engine/
+├── components/     # Node components & main engine
+├── layouts/        # Layout algorithms (dagre, grid, radial)
+├── hooks/          # useLayout hook
+├── types/          # TypeScript definitions
+├── constants/      # Layout presets & config
+└── utils/          # Helper functions
+```
+
+## Tech Stack
+
+- [Next.js 16](https://nextjs.org/)
+- [React Flow](https://reactflow.dev/)
+- [Dagre](https://github.com/dagrejs/dagre) (graph layout)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [TypeScript](https://www.typescriptlang.org/)
+
+## License
+
+MIT
